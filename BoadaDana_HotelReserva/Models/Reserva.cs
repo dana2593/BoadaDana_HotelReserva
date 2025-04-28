@@ -1,25 +1,35 @@
 ﻿namespace BoadaDana_HotelReserva.Models
 {
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public class Reserva
     {
+        [Key]
         public int Id { get; set; }
 
-        [DataType(DataType.Date)]
         [Required]
-        public DateTime FechaEntrada { get; set; }
+        [StringLength(50)]
+        public required string Nombre { get; set; }
 
         [DataType(DataType.Date)]
+        public DateTime FechaInicio { get; set; }
+
+        public int PuntosAcumulados { get; set; }
+
         [Required]
-        public DateTime FechaSalida { get; set; }
+        public string TipoRecompensa
+        {
+            get
+            {
+                return PuntosAcumulados >= 500 ? "GOLD" : "SILVER";
+            }
+        }
 
-        [Range(0, 99999.99)]
-        public decimal ValorAPagar { get; set; }
-
-        // FK
         public int ClienteId { get; set; }
-        public Cliente Cliente { get; set; }
-    }
+        [ForeignKey("ClienteId")]
+        public Cliente? Cliente { get; set; }
 
+
+    }
 }

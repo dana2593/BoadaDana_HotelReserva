@@ -57,7 +57,7 @@ namespace BoadaDana_HotelReserva.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FechaEntrada,FechaSalida,ValorAPagar,ClienteId")] Reserva reserva)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,FechaInicio,PuntosAcumulados,ClienteId")] Reserva reserva)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +91,7 @@ namespace BoadaDana_HotelReserva.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FechaEntrada,FechaSalida,ValorAPagar,ClienteId")] Reserva reserva)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,FechaInicio,PuntosAcumulados,ClienteId")] Reserva reserva)
         {
             if (id != reserva.Id)
             {

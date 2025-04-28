@@ -65,6 +65,9 @@ namespace BoadaDana_HotelReserva.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("FechaInicio")
                         .HasColumnType("datetime2");
 
@@ -77,6 +80,8 @@ namespace BoadaDana_HotelReserva.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
 
                     b.ToTable("PlanRecompensa");
                 });
@@ -92,14 +97,16 @@ namespace BoadaDana_HotelReserva.Migrations
                     b.Property<int>("ClienteId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("FechaEntrada")
+                    b.Property<DateTime>("FechaInicio")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("FechaSalida")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<decimal>("ValorAPagar")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("PuntosAcumulados")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -117,6 +124,17 @@ namespace BoadaDana_HotelReserva.Migrations
                         .IsRequired();
 
                     b.Navigation("PlanRecompensa");
+                });
+
+            modelBuilder.Entity("BoadaDana_HotelReserva.Models.PlanRecompensa", b =>
+                {
+                    b.HasOne("BoadaDana_HotelReserva.Models.Cliente", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cliente");
                 });
 
             modelBuilder.Entity("BoadaDana_HotelReserva.Models.Reserva", b =>

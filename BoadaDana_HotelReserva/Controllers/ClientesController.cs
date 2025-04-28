@@ -22,7 +22,8 @@ namespace BoadaDana_HotelReserva.Controllers
         // GET: Clientes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Cliente.ToListAsync());
+            var boadaDana_HotelReservaContext = _context.Cliente.Include(c => c.PlanRecompensa);
+            return View(await boadaDana_HotelReservaContext.ToListAsync());
         }
 
         // GET: Clientes/Details/5
@@ -34,6 +35,7 @@ namespace BoadaDana_HotelReserva.Controllers
             }
 
             var cliente = await _context.Cliente
+                .Include(c => c.PlanRecompensa)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (cliente == null)
             {
@@ -46,6 +48,7 @@ namespace BoadaDana_HotelReserva.Controllers
         // GET: Clientes/Create
         public IActionResult Create()
         {
+            ViewData["PlanRecompensaId"] = new SelectList(_context.PlanRecompensa, "Id", "Nombre");
             return View();
         }
 
@@ -54,7 +57,7 @@ namespace BoadaDana_HotelReserva.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Edad,Saldo,EsVip,FechaRegistro")] Cliente cliente)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,Edad,Saldo,EsVip,FechaRegistro,PlanRecompensaId")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +65,7 @@ namespace BoadaDana_HotelReserva.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["PlanRecompensaId"] = new SelectList(_context.PlanRecompensa, "Id", "Nombre", cliente.PlanRecompensaId);
             return View(cliente);
         }
 
@@ -78,6 +82,7 @@ namespace BoadaDana_HotelReserva.Controllers
             {
                 return NotFound();
             }
+            ViewData["PlanRecompensaId"] = new SelectList(_context.PlanRecompensa, "Id", "Nombre", cliente.PlanRecompensaId);
             return View(cliente);
         }
 
@@ -86,7 +91,7 @@ namespace BoadaDana_HotelReserva.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Edad,Saldo,EsVip,FechaRegistro")] Cliente cliente)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Edad,Saldo,EsVip,FechaRegistro,PlanRecompensaId")] Cliente cliente)
         {
             if (id != cliente.Id)
             {
@@ -113,6 +118,7 @@ namespace BoadaDana_HotelReserva.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["PlanRecompensaId"] = new SelectList(_context.PlanRecompensa, "Id", "Nombre", cliente.PlanRecompensaId);
             return View(cliente);
         }
 
@@ -125,6 +131,7 @@ namespace BoadaDana_HotelReserva.Controllers
             }
 
             var cliente = await _context.Cliente
+                .Include(c => c.PlanRecompensa)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (cliente == null)
             {
