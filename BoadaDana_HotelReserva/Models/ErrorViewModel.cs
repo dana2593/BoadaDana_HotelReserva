@@ -1,4 +1,4 @@
-namespace BoadaDana_HotelReserva.Models
+﻿namespace BoadaDana_HotelReserva.Models
 {
     public class ErrorViewModel
     {

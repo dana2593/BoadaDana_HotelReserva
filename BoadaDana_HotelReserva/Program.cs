@@ -1,4 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using BoadaDana_HotelReserva.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<BoadaDana_HotelReservaContext>(options =>
+
+    options.UseSqlServer(builder.Configuration.GetConnectionString("BoadaDana_HotelReservaContext") ?? throw new InvalidOperationException("Connection string 'BoadaDana_HotelReservaContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -25,3 +33,4 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
